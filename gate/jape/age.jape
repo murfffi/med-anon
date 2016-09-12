@@ -1,0 +1,20 @@
+Phase: Age
+Input: Person Token
+Options: control = appelt debug = true
+
+Rule: PersonAge
+({Person}{Token.kind == "punctuation"})
+({Token.kind == "number"})
+:age
+-->
+ :age.Age = {rule="PersonAge"}
+ 
+Rule: AgeYearsOld
+(
+	{Token.kind == "number"}
+	({Token.kind == "punctuation"})?
+	{Token.string ==~ "year.*"}
+):age
+
+-->
+ :age.Age = {rule="AgeYearsOld"}

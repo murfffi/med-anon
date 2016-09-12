@@ -1,0 +1,13 @@
+Phase: Phones
+Input: Token ID
+Options: control = appelt
+
+Rule: Phone
+(
+ ({Token.kind == "number", Token notWithin ID})
+ ({Token.string == "-"}{Token.kind == "number"})[2,10]
+):phone
+-->
+ :phone.PHI = {type="PHONE", rule="Phone"}
+
+ 

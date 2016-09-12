@@ -1,0 +1,14 @@
+Phase: OneLiners
+Input: SpaceToken
+Options: control = brill debug = false
+
+Rule: Newline
+(
+ {SpaceToken.kind == "control"}
+):nl
+-->
+{
+gate.AnnotationSet nl = (gate.AnnotationSet) bindings.get("nl");
+outputAS.add(nl.firstNode(), nl.lastNode(), "EL", Factory.newFeatureMap());
+outputAS.add(nl.firstNode(), nl.lastNode(), "SL", Factory.newFeatureMap());
+}

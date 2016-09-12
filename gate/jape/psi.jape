@@ -1,0 +1,33 @@
+Phase: Psi
+Input: Person Location Organization Age Date
+Options: control = appelt debug = false
+
+Rule: PsiPerson
+({Person})
+:ann
+-->
+ :ann.PHI = {type="Person", rule=:ann.Person.rule}
+
+Rule: PsiLocation
+({Location})
+:ann
+-->
+ :ann.PHI = {type="Location", rule=:ann.Location.rule}
+
+Rule: PsiOrganization
+({Organization})
+:ann
+-->
+ :ann.PHI = {type="Organization", rule=:ann.Organization.rule}
+
+Rule: PsiAge
+({Age})
+:ann
+-->
+ :ann.PHI = {type="Age", rule=:ann.Age.rule}
+ 
+Rule: PsiDate
+({Date})
+:ann
+-->
+ :ann.PHI = {type="Date", rule=:ann.Date.rule}

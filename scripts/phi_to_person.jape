@@ -1,0 +1,15 @@
+Phase: RenameAnot
+Input: PHI
+Options: control = appelt debug = true
+
+Rule: Rename
+({PHI.TYPE == "DOCTOR"}|{PHI.TYPE == "PATIENT"})
+:ann
+-->
+{
+AnnotationSet annSet = bindings.get("ann");
+outputAS.add(annSet.firstNode(), annSet.lastNode(), "PERSON",  
+Factory.newFeatureMap());  
+outputAS.add(annSet.firstNode(), annSet.lastNode(), "Person",  
+Factory.newFeatureMap());  
+}

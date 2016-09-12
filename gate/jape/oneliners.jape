@@ -1,0 +1,25 @@
+Phase: OneLiners
+Input: Token SpaceToken
+Options: control = all
+
+Macro: NL
+({SpaceToken.kind == "control"})
+
+Rule: OnelineID
+(NL)
+(
+ ({Token.kind == "number", Token.length > 1})
+ ({Token.kind == "punctuation"}{Token.kind == "number"})*
+):id
+(NL)
+-->
+ :id.PHI = {type="ID", rule="OnelineID"}
+ 
+Rule: OnelineHospital
+(NL)
+(
+ {Token.orth == "allCaps", Token.length > 1, Token.length < 4} 
+):id
+(NL)
+-->
+ :id.PHI = {type="HOSPITAL", rule="OnelineHospital"}

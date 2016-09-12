@@ -1,0 +1,50 @@
+Phase:	Med_Date
+Input: Token Date
+Options: control = appelt
+
+
+Rule:KnownDate
+Priority: 100
+
+({Date}):known
+-->
+{}
+
+Rule:PartialDate
+Priority: 20
+
+(
+  {Token.kind == "number"}
+  {Token.string == "/"}
+  {Token.kind == "number"}
+):date
+-->
+{
+AnnotationSet bindingDate = (AnnotationSet) bindings.get("date");
+Long start = bindingDate.firstNode().getOffset();
+Long end = bindingDate.lastNode().getOffset();
+String dateString;
+try {
+  dateString = doc.getContent().getContent(start, end).toString();
+} catch (InvalidOffsetException e) {
+  throw new RuntimeException(e);
+}
+boolean match = false;
+for (String format : new String[] {"MM/dd", "M/d"}) {
+	try {
+	  java.text.DateFormat df = new java.text.SimpleDateFormat(format);
+	  Date d = df.parse(dateString);
+	  if (dateString.equals(df.format(d))) {
+	     match = true;
+		 break;
+	  }
+	} catch (java.text.ParseException e) {
+	  // not a date
+	}
+}
+if (match) {
+	gate.FeatureMap features = Factory.newFeatureMap();
+	features.put("rule", "PartialDate");
+	outputAS.add(bindingDate.firstNode(), bindingDate.lastNode(), "Date", features);
+}
+}

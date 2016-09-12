@@ -1,0 +1,18 @@
+Phase: RenameAnot
+Input: PERSON
+Options: control = appelt debug = true
+
+Rule: Rename
+({PERSON})
+:ann
+-->
+{
+AnnotationSet annSet = bindings.get("ann");  
+Annotation ann = annSet.iterator().next();  
+FeatureMap features = Factory.newFeatureMap();  
+for (Object fName : ann.getFeatures().keySet()) {
+	features.put(fName, ann.getFeatures().get(fName));
+} 
+outputAS.add(annSet.firstNode(), annSet.lastNode(), "Person",  
+features);  
+}
